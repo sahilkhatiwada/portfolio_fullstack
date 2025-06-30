@@ -9,55 +9,162 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
+  const [activePath, setActivePath] = useState(location.pathname);
+
+  const navItems = [
+    { name: 'Home', path: '/', isPage: true },
+    { name: 'About', path: '#about', isPage: false },
+    { name: 'Projects', path: '#projects', isPage: false },
+    { name: 'Skills', path: '#skills', isPage: false },
+    { name: 'Experience', path: '#experience', isPage: false },
+    { name: 'Contact', path: '#contact', isPage: false },
+    { name: 'Blog', path: '/blog', isPage: true },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 20);
+
+      if (location.pathname === '/') {
+        let currentSection = '/';
+        navItems.forEach(item => {
+          if (!item.isPage) {
+            const section = document.getElementById(item.path.substring(1));
+            if (section && window.scrollY >= section.offsetTop - 100) {
+              currentSection = item.path;
+            }
+          }
+        });
+        setActivePath(currentSection);
+      } else {
+        setActivePath(location.pathname);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
 
-  const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/#about' },
-    { name: 'Projects', path: '/#projects' },
-    { name: 'Skills', path: '/#skills' },
-    { name: 'Experience', path: '/#experience' },
-    { name: 'Contact', path: '/#contact' },
-    { name: 'Blog', path: '/blog' },
-  ];
-
-  const scrollToSection = (path) => {
-    if (path.startsWith('/#')) {
-      const sectionId = path.substring(2);
+  const scrollToSection = (e, path) => {
+    e.preventDefault();
+    if (path.startsWith('#')) {
+      // Find the target element
+      const sectionId = path.substring(1);
       const element = document.getElementById(sectionId);
+      
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo({
+          top: element.offsetTop - 80, // Adjust for navbar height
+          behavior: 'smooth'
+        });
+        
+        // If we are not on the homepage, first navigate there
+        if (location.pathname !== '/') {
+          // A little trick to make it work with React Router
+          setTimeout(() => {
+            window.history.pushState(null, "", '/');
+            window.location.href = path; // Then scroll
+          }, 300)
+        }
       }
     }
     setIsOpen(false);
+  };
+
+  const menuVariants = {
+    closed: {
+        opacity: 0,
+        y: -20,
+        transition: {
+            duration: 0.2,
+            ease: 'easeOut',
+        },
+    },
+    open: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.3,
+            ease: 'easeIn',
+            staggerChildren: 0.05,
+        },
+    },
+  };
+
+  const navItemVariants = {
+    closed: { opacity: 0, y: -10 },
+    open: { opacity: 1, y: 0 },
+  };
+
+  const NavLink = ({ item, isMobile = false }) => {
+    const isActive = activePath === item.path;
+
+    const desktopClasses = `text-sm font-medium transition-colors duration-300 ${
+        isActive
+            ? 'text-primary-600 dark:text-primary-400'
+            : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
+    }`;
+
+    const mobileClasses = `block w-full text-left py-3 px-4 rounded-md text-base font-medium transition-all duration-300 ${
+      isActive
+          ? 'text-white bg-primary-600 shadow-md'
+          : `text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-dark-700`
+    }`;
+    
+    const linkClasses = isMobile ? mobileClasses : desktopClasses;
+
+    if (item.isPage) {
+      return (
+        <Link to={item.path} className={linkClasses} onClick={() => setIsOpen(false)}>
+          {item.name}
+        </Link>
+      );
+    }
+
+    // For anchor links
+    if (location.pathname !== '/') {
+      return (
+        <Link to={`/${item.path}`} className={linkClasses} onClick={() => setIsOpen(false)}>
+          {item.name}
+        </Link>
+      )
+    }
+
+    return (
+      <a href={item.path} onClick={(e) => scrollToSection(e, item.path)} className={linkClasses}>
+        {item.name}
+      </a>
+    );
   };
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/80 dark:bg-dark-900/80 backdrop-blur-md shadow-lg'
+        scrolled || isOpen
+          ? 'bg-white/80 dark:bg-dark-900/80 backdrop-blur-lg shadow-md'
           : 'bg-transparent'
       }`}
     >
       <div className="container-custom px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2">
+        <div className="flex items-center justify-between h-20">
+          <Link to="/" className="flex items-center space-x-2" onClick={(e) => {
+              if (location.pathname === '/') {
+                  window.scrollTo({top: 0, behavior: 'smooth'});
+              } else {
+                  // Let React Router handle navigation
+                  // No need to preventDefault
+              }
+              setIsOpen(false);
+          }}>
             <motion.div
-              whileHover={{ scale: 1.1 }}
-              className="text-2xl font-bold text-gradient"
+              whileHover={{ scale: 1.1, rotate: 10 }}
+              className="text-3xl font-bold text-gradient"
             >
-              Sk
+              SK
             </motion.div>
           </Link>
 
@@ -68,29 +175,7 @@ const Navbar = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {item.path.startsWith('/#') ? (
-                  <button
-                    onClick={() => scrollToSection(item.path)}
-                    className={`text-sm font-medium transition-colors duration-300 ${
-                      location.pathname === '/' && window.location.hash === item.path.substring(1)
-                        ? 'text-primary-600 dark:text-primary-400'
-                        : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
-                    }`}
-                  >
-                    {item.name}
-                  </button>
-                ) : (
-                  <Link
-                    to={item.path}
-                    className={`text-sm font-medium transition-colors duration-300 ${
-                      location.pathname === item.path
-                        ? 'text-primary-600 dark:text-primary-400'
-                        : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                )}
+                <NavLink item={item} />
               </motion.div>
             ))}
           </div>
@@ -100,65 +185,53 @@ const Navbar = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={toggleTheme}
-              className="p-2 rounded-lg bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors duration-300"
+              className="p-3 rounded-full bg-gray-200/50 dark:bg-dark-700/50 text-gray-700 dark:text-gray-300"
+              aria-label="Toggle theme"
             >
               {isDark ? <FiSun size={20} /> : <FiMoon size={20} />}
             </motion.button>
 
-            <button
+            <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 rounded-lg bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors duration-300"
+              className="md:hidden p-3 rounded-full bg-gray-200/50 dark:bg-dark-700/50 text-gray-700 dark:text-gray-300"
+              aria-label="Toggle menu"
+              aria-expanded={isOpen}
             >
-              {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
-            </button>
+              <AnimatePresence initial={false} mode="wait">
+                <motion.div
+                  key={isOpen ? 'x' : 'menu'}
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+                </motion.div>
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
+      </div>
 
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden bg-white dark:bg-dark-800 rounded-lg mt-2 shadow-lg border border-gray-200 dark:border-dark-700"
+              variants={menuVariants}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-dark-800 shadow-lg border-t border-gray-200 dark:border-dark-700"
             >
-              <div className="px-4 py-2 space-y-2">
+              <div className="px-4 pt-2 pb-4 space-y-2">
                 {navItems.map((item) => (
-                  <motion.div
-                    key={item.name}
-                    whileHover={{ x: 5 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {item.path.startsWith('/#') ? (
-                      <button
-                        onClick={() => scrollToSection(item.path)}
-                        className={`block w-full text-left py-2 px-3 rounded-md text-sm font-medium transition-colors duration-300 ${
-                          location.pathname === '/' && window.location.hash === item.path.substring(1)
-                            ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
-                            : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-dark-700'
-                        }`}
-                      >
-                        {item.name}
-                      </button>
-                    ) : (
-                      <Link
-                        to={item.path}
-                        className={`block py-2 px-3 rounded-md text-sm font-medium transition-colors duration-300 ${
-                          location.pathname === item.path
-                            ? 'text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20'
-                            : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-dark-700'
-                        }`}
-                      >
-                        {item.name}
-                      </Link>
-                    )}
+                  <motion.div key={item.name} variants={navItemVariants}>
+                     <NavLink item={item} isMobile={true} />
                   </motion.div>
                 ))}
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
     </motion.nav>
   );
 };

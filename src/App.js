@@ -6,7 +6,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
-import ThemeDebug from './components/ThemeDebug';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
               <Route path="/blog/:id" element={<BlogPost />} />
             </Routes>
           </AnimatePresence>
-          <ThemeDebug />
+          <Footer />
         </div>
       </Router>
     </ThemeProvider>

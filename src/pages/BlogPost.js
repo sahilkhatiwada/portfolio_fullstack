@@ -14,7 +14,6 @@ const BlogPost = () => {
     const foundPost = blogData.find(p => p.id === parseInt(id));
     if (foundPost) {
       setPost(foundPost);
-      
       // Get related posts (same tags, excluding current post)
       const related = blogData
         .filter(p => p.id !== parseInt(id) && p.tags.some(tag => foundPost.tags.includes(tag)))
@@ -47,18 +46,10 @@ const BlogPost = () => {
 
   if (!post) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="pt-20 section-padding"
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pt-20 section-padding">
         <div className="container-custom text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Post not found
-          </h1>
-          <Link to="/blog" className="btn-primary">
-            Back to Blog
-          </Link>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Post not found</h1>
+          <Link to="/blog" className="btn-primary">Back to Blog</Link>
         </div>
       </motion.div>
     );

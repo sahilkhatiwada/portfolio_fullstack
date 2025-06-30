@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Hero from '../components/sections/Hero';
 import About from '../components/sections/About';
@@ -8,6 +8,10 @@ import Experience from '../components/sections/Experience';
 import Contact from '../components/sections/Contact';
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

@@ -1,12 +1,107 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FiBriefcase, FiCalendar, FiMapPin, FiExternalLink } from 'react-icons/fi';
+import { FiBriefcase, FiCalendar, FiMapPin, FiAward, FiBookOpen } from 'react-icons/fi';
+
+const ExperienceItem = ({ item, index }) => {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.3,
+  });
+
+  const side = index % 2 === 0 ? 'left' : 'right';
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: side === 'left' ? -50 : 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: { type: 'spring', stiffness: 60, damping: 15, mass: 0.8 },
+    },
+  };
+  
+  const Icon = item.type === 'work' ? FiBriefcase : FiBookOpen;
+  
+  return (
+    <div ref={ref} className="relative flex justify-between items-center w-full">
+      {/* Content Side */}
+      <div className={`w-full md:w-[calc(50%-2rem)] ${side === 'right' ? 'md:order-3 md:pl-8' : 'md:pr-8 md:text-right'}`}>
+        <motion.div
+          variants={itemVariants}
+          initial="hidden"
+          animate={inView ? 'visible' : 'hidden'}
+          whileHover={{ y: -5, scale: 1.02 }}
+          className="card p-6"
+        >
+            <div className={`flex items-start justify-between mb-2 ${side === 'right' ? 'md:flex-row-reverse' : ''}`}>
+                <h3 className={`text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100 ${side === 'right' ? 'md:pl-4' : 'md:pr-4'}`}>
+                    {item.title}
+                </h3>
+                <span className={`flex-shrink-0 px-3 py-1 mt-1 rounded-full text-xs font-semibold text-white ${
+                    item.type === 'work' 
+                    ? 'bg-green-500' 
+                    : 'bg-blue-500'
+                }`}>
+                    {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+                </span>
+            </div>
+            
+            <div className={`text-sm text-gray-600 dark:text-gray-400 mb-3 ${side === 'right' ? 'md:text-right' : ''}`}>
+                <div className={`flex items-center gap-2 mb-1 ${side === 'right' ? 'md:justify-end' : ''}`}>
+                    <FiAward size={14} className="text-primary-500" />
+                    <span>{item.company}</span>
+                </div>
+                <div className={`flex items-center gap-2 ${side === 'right' ? 'md:justify-end' : ''}`}>
+                    <FiMapPin size={14} className="text-primary-500" />
+                    <span>{item.location}</span>
+                </div>
+            </div>
+
+            <div className={`flex items-center gap-2 text-xs text-gray-500 dark:text-gray-500 mb-4 ${side === 'right' ? 'md:justify-end' : ''}`}>
+                <FiCalendar size={14} />
+                <span>{item.period}</span>
+            </div>
+
+            <p className="text-gray-600 dark:text-gray-400 mb-4 text-sm leading-relaxed">
+                {item.description}
+            </p>
+
+            <div className={`flex flex-wrap gap-2 ${side === 'right' ? 'md:justify-end' : ''}`}>
+                {item.technologies.map((tech, techIndex) => (
+                <span
+                    key={techIndex}
+                    className="px-2.5 py-1 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 text-xs rounded-full"
+                >
+                    {tech}
+                </span>
+                ))}
+            </div>
+        </motion.div>
+      </div>
+      
+      {/* Timeline Dot */}
+      <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-10 h-10 bg-gray-50 dark:bg-dark-800 rounded-full flex items-center justify-center z-10">
+        <motion.div
+          className="w-8 h-8 rounded-full bg-white dark:bg-dark-700 flex items-center justify-center shadow-md"
+          initial={{ scale: 0 }}
+          animate={inView ? { scale: 1 } : {}}
+          transition={{ type: 'spring', stiffness: 150, damping: 20, delay: 0.2 }}
+        >
+          <Icon className="text-primary-500" size={16} />
+        </motion.div>
+      </div>
+
+      {/* Spacer on the other side */}
+      <div className="hidden md:block w-[calc(50%-2rem)]"></div>
+    </div>
+  );
+};
 
 const Experience = () => {
-  const [ref, inView] = useInView({
+  const { ref, inView } = useInView({
     triggerOnce: true,
-    threshold: 0.1,
+    threshold: 0.05,
   });
 
   const experience = [
@@ -18,27 +113,6 @@ const Experience = () => {
       period: '2022 - Present',
       description: 'Leading development of enterprise web applications using React, Node.js, and cloud technologies. Mentoring junior developers and implementing best practices.',
       technologies: ['React', 'Node.js', 'TypeScript', 'AWS', 'PostgreSQL'],
-      link: 'https://techcorp.com'
-    },
-    {
-      type: 'work',
-      title: 'Full Stack Developer',
-      company: 'Digital Innovations Inc.',
-      location: 'New York, NY',
-      period: '2020 - 2022',
-      description: 'Developed and maintained multiple client projects, focusing on e-commerce platforms and SaaS applications.',
-      technologies: ['React', 'Express.js', 'MongoDB', 'Stripe', 'Redis'],
-      link: 'https://digitalinnovations.com'
-    },
-    {
-      type: 'work',
-      title: 'Frontend Developer',
-      company: 'WebCraft Studio',
-      location: 'Austin, TX',
-      period: '2019 - 2020',
-      description: 'Created responsive and interactive user interfaces for various web applications and marketing campaigns.',
-      technologies: ['React', 'Vue.js', 'Sass', 'Webpack', 'Figma'],
-      link: 'https://webcraftstudio.com'
     },
     {
       type: 'education',
@@ -48,7 +122,15 @@ const Experience = () => {
       period: '2017 - 2019',
       description: 'Specialized in Software Engineering and Artificial Intelligence. Graduated with honors.',
       technologies: ['Machine Learning', 'Data Structures', 'Algorithms', 'Software Design'],
-      link: 'https://stanford.edu'
+    },
+    {
+      type: 'work',
+      title: 'Full Stack Developer',
+      company: 'Digital Innovations Inc.',
+      location: 'New York, NY',
+      period: '2020 - 2022',
+      description: 'Developed and maintained multiple client projects, focusing on e-commerce platforms and SaaS applications.',
+      technologies: ['React', 'Express.js', 'MongoDB', 'Stripe', 'Redis'],
     },
     {
       type: 'education',
@@ -56,9 +138,8 @@ const Experience = () => {
       company: 'University of California',
       location: 'Berkeley, CA',
       period: '2013 - 2017',
-      description: 'Major in Computer Science with minor in Mathematics. Dean\'s List recipient.',
+      description: 'Major in Computer Science with a minor in Mathematics. Dean\'s List recipient.',
       technologies: ['Java', 'Python', 'C++', 'Database Systems', 'Computer Networks'],
-      link: 'https://berkeley.edu'
     }
   ];
 
@@ -67,199 +148,62 @@ const Experience = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.1,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: -50 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      x: 0,
+      y: 0,
       transition: {
-        duration: 0.6,
+        type: 'spring',
+        stiffness: 100,
+        damping: 12,
       },
     },
   };
 
   return (
-    <section id="experience" className="section-padding bg-gray-50 dark:bg-dark-800">
+    <section id="experience" className="section-padding bg-gray-50 dark:bg-dark-800 overflow-hidden">
       <div className="container-custom">
         <motion.div
           ref={ref}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           variants={containerVariants}
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-20"
         >
           <motion.h2
             variants={itemVariants}
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-3xl md:text-5xl font-bold mb-4"
           >
             Experience & <span className="text-gradient">Education</span>
           </motion.h2>
           
           <motion.p
             variants={itemVariants}
-            className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto"
+            className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto"
           >
-            My professional journey and educational background that have shaped 
-            my expertise in software development and technology.
+            My professional journey and educational background that have shaped my expertise.
           </motion.p>
         </motion.div>
 
+        <div ref={ref} className="relative">
         <motion.div
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          variants={containerVariants}
-          className="relative"
-        >
-          {/* Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary-500 to-purple-600"></div>
-
-          <div className="space-y-12">
+            className="absolute left-4 md:left-1/2 -translate-x-1/2 top-0 w-1 bg-gray-200 dark:bg-dark-700"
+            style={{ height: '0%' }}
+            animate={inView ? { height: '100%' } : {}}
+            transition={{ duration: 2, ease: 'easeOut' }}
+          />
+          <div className="space-y-16 md:space-y-0 md:pl-12">
             {experience.map((item, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className={`relative flex items-start ${
-                  index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Timeline Dot */}
-                <div className={`absolute left-6 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 rounded-full border-4 border-white dark:border-dark-800 bg-gradient-to-r from-primary-500 to-purple-600 z-10 ${
-                  item.type === 'education' ? 'ring-2 ring-blue-500' : 'ring-2 ring-green-500'
-                }`}></div>
-
-                {/* Content */}
-                <div className={`ml-16 md:ml-0 md:w-5/12 ${
-                  index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'
-                }`}>
-                  <motion.div
-                    whileHover={{ y: -5 }}
-                    className="card p-6 relative"
-                  >
-                    {/* Type Badge */}
-                    <div className={`absolute -top-3 left-6 px-3 py-1 rounded-full text-xs font-medium text-white ${
-                      item.type === 'work' 
-                        ? 'bg-gradient-to-r from-green-500 to-emerald-500' 
-                        : 'bg-gradient-to-r from-blue-500 to-cyan-500'
-                    }`}>
-                      {item.type === 'work' ? 'Work' : 'Education'}
-                    </div>
-
-                    <div className="mt-4">
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                        {item.title}
-                      </h3>
-                      
-                      <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                        <div className="flex items-center gap-1">
-                          <FiBriefcase size={16} />
-                          <span>{item.company}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <FiMapPin size={16} />
-                          <span>{item.location}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-500 mb-4">
-                        <FiCalendar size={16} />
-                        <span>{item.period}</span>
-                      </div>
-
-                      <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                        {item.description}
-                      </p>
-
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {item.technologies.map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="px-3 py-1 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 text-xs rounded-full"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      {item.link && (
-                        <a
-                          href={item.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-300"
-                        >
-                          <FiExternalLink size={16} />
-                          <span className="text-sm">Visit Website</span>
-                        </a>
-                      )}
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
+              <ExperienceItem key={index} item={item} index={index} />
             ))}
           </div>
-        </motion.div>
-
-        {/* Skills Summary */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-20"
-        >
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Key Achievements
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Throughout my career, I've consistently delivered high-quality solutions 
-              and contributed to the success of various projects and organizations.
-            </p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                number: '50+',
-                label: 'Projects Completed',
-                description: 'Successfully delivered projects across various industries and technologies'
-              },
-              {
-                number: '5+',
-                label: 'Years Experience',
-                description: 'Deep expertise in full-stack development and modern technologies'
-              },
-              {
-                number: '30+',
-                label: 'Happy Clients',
-                description: 'Built long-term relationships with satisfied clients and partners'
-              }
-            ].map((achievement, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.6, delay: 0.7 + index * 0.1 }}
-                whileHover={{ y: -5 }}
-                className="card p-6 text-center"
-              >
-                <div className="text-4xl font-bold text-gradient mb-2">
-                  {achievement.number}
-                </div>
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                  {achievement.label}
-                </h4>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  {achievement.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
