@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Building Modern Web Applications with React and TypeScript",
+    "excerpt": "Learn how to build scalable and maintainable web applications using React and TypeScript. This comprehensive guide covers best practices, patterns, and real-world examples.",
+    "content": "React and TypeScript have become the go-to combination for building modern web applications. In this post, we'll explore how to leverage TypeScript's type system to create more robust React components...",
+    "author": "John Doe",
+    "date": "2024-01-15",
+    "readTime": "8 min read",
+    "tags": ["React", "TypeScript", "Web Development"],
+    "image": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500&h=300&fit=crop"
+  },
+  {
+    "id": 2,
+    "title": "Mastering Tailwind CSS: Advanced Techniques and Best Practices",
+    "excerpt": "Discover advanced Tailwind CSS techniques that will take your styling to the next level. From custom configurations to responsive design patterns.",
+    "content": "Tailwind CSS has revolutionized how we approach styling in modern web development. In this comprehensive guide, we'll dive deep into advanced techniques...",
+    "author": "John Doe",
+    "date": "2024-01-10",
+    "readTime": "12 min read",
+    "tags": ["CSS", "Tailwind", "Design"],
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=300&fit=crop"
+  },
+  {
+    "id": 3,
+    "title": "The Future of Animation in Web Development",
+    "excerpt": "Explore the latest trends in web animation and how Framer Motion is changing the game for React developers.",
+    "content": "Animation has become an integral part of modern web experiences. With tools like Framer Motion, creating smooth and engaging animations has never been easier...",
+    "author": "John Doe",
+    "date": "2024-01-05",
+    "readTime": "6 min read",
+    "tags": ["Animation", "Framer Motion", "UX"],
+    "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop"
+  },
+  {
+    "id": 4,
+    "title": "Building Scalable APIs with Node.js and Express",
+    "excerpt": "Learn how to design and implement RESTful APIs that can handle high traffic and maintain code quality as your application grows.",
+    "content": "Building APIs that can scale with your application is crucial for long-term success. In this guide, we'll explore best practices for creating robust APIs...",
+    "author": "John Doe",
+    "date": "2023-12-28",
+    "readTime": "10 min read",
+    "tags": ["Node.js", "Express", "API Design"],
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop"
+  }
+] 
