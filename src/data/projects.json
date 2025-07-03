@@ -4,9 +4,9 @@
     "title": "E-Commerce Platform",
     "description": "A full-stack e-commerce platform built with React, Node.js, and MongoDB. Features include user authentication, product management, shopping cart, and payment integration.",
     "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=300&fit=crop",
-    "technologies": ["React", "Node.js", "MongoDB", "Express", "Stripe"],
-    "github": "https://github.com/username/ecommerce-platform",
-    "live": "https://ecommerce-platform.vercel.app",
+    "technologies": ["React", "Node.js", "MongoDB", "Express", "Khalti"],
+    "github": "https://github.com/sahilkhatiwada/E-commerce-website",
+    "live": "",
     "category": "Full Stack"
   },
   {
@@ -15,19 +15,19 @@
     "description": "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
     "image": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=500&h=300&fit=crop",
     "technologies": ["React", "Firebase", "Tailwind CSS", "Framer Motion"],
-    "github": "https://github.com/username/task-manager",
-    "live": "https://task-manager-app.vercel.app",
+    "github": "https://github.com/sahilkhatiwada/Team-Project-Management",
+    "live": "",
     "category": "Frontend"
   },
   {
     "id": 3,
-    "title": "AI Chat Application",
-    "description": "An AI-powered chat application that uses OpenAI's GPT model for intelligent conversations and context-aware responses.",
-    "image": "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&h=300&fit=crop",
-    "technologies": ["React", "OpenAI API", "Node.js", "Socket.io"],
-    "github": "https://github.com/username/ai-chat-app",
-    "live": "https://ai-chat-app.vercel.app",
-    "category": "AI/ML"
+    "title": "Movie Max Website",
+    "description": "A website for a movie streaming platform that allows users to browse and watch movies trailer online.",
+    "image": "https://static.theprint.in/wp-content/uploads/2022/11/ANI-20221129135044.jpg",
+    "technologies": ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB"],
+    "github": "https://github.com/sahilkhatiwada/ai-chat-app",
+    "live": "https://movie-max-six.vercel.app/",
+    "category": "Full Stack"
   },
   {
     "id": 4,
@@ -35,28 +35,28 @@
     "description": "A modern, responsive portfolio website built with React and Tailwind CSS, featuring smooth animations and interactive elements.",
     "image": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=500&h=300&fit=crop",
     "technologies": ["React", "Tailwind CSS", "Framer Motion", "React Router"],
-    "github": "https://github.com/username/portfolio",
-    "live": "https://portfolio-website.vercel.app",
+    "github": "https://github.com/sahilkhatiwada/portfolio_fullstack",
+    "live": "https://portfolio-fullstack-blush.vercel.app/",
     "category": "Frontend"
   },
   {
     "id": 5,
-    "title": "Weather Dashboard",
-    "description": "A comprehensive weather dashboard that displays current weather, forecasts, and historical data with interactive charts and maps.",
-    "image": "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=500&h=300&fit=crop",
-    "technologies": ["React", "Chart.js", "OpenWeather API", "Leaflet"],
-    "github": "https://github.com/username/weather-dashboard",
-    "live": "https://weather-dashboard.vercel.app",
-    "category": "Frontend"
+    "title": "Expense Tracker (MERN)",
+    "description": "A MERN stack application to track expenses, visualize spending, and manage budgets with authentication and charts.",
+    "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=500&h=300&fit=crop",
+    "technologies": ["MongoDB", "Express", "React", "Node.js"],
+    "github": "https://github.com/sahilkhatiwada/Expense_Tracker_Mern",
+    "live": "",
+    "category": "Full Stack"
   },
   {
     "id": 6,
-    "title": "Blog CMS",
-    "description": "A content management system for blogs with markdown support, image uploads, and SEO optimization features.",
-    "image": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500&h=300&fit=crop",
-    "technologies": ["Next.js", "Prisma", "PostgreSQL", "AWS S3"],
-    "github": "https://github.com/username/blog-cms",
-    "live": "https://blog-cms.vercel.app",
-    "category": "Full Stack"
+    "title": "Digital Clock with Offline Alarm",
+    "description": "A modern Next.js app with multiple alarms, notifications, vibration, snooze, gradual volume increase, and offline support (PWA). Includes dark/light mode, custom alarm sounds, and more.",
+    "image": "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=500&h=300&fit=crop",
+    "technologies": ["Next.js", "TypeScript", "PWA", "CSS"],
+    "github": "https://github.com/sahilkhatiwada/Digital-Clock-with-offline-Alarm-support",
+    "live": "",
+    "category": "Frontend"
   }
 ] 

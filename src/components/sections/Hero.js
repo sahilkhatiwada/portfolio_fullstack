@@ -65,8 +65,28 @@ const Hero = () => {
     },
   };
 
+  // Sci-fi animated grid background for both light and dark mode
+  const SciFiGridBg = () => (
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <svg width="100%" height="100%" className="w-full h-full animate-slow-pan" style={{position:'absolute',top:0,left:0}}>
+        <defs>
+          <linearGradient id="sciFiGrid" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#00eaff" stopOpacity="0.10" />
+            <stop offset="100%" stopColor="#7f5fff" stopOpacity="0.08" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#sciFiGrid)" />
+        <g stroke="#00eaff" strokeWidth="0.5" opacity="0.10">
+          {[...Array(20)].map((_,i)=>(<line key={i} x1={i*60} y1="0" x2={i*60} y2="100%" />))}
+          {[...Array(10)].map((_,i)=>(<line key={i} x1="0" y1={i*60} x2="100%" y2={i*60} />))}
+        </g>
+      </svg>
+    </div>
+  );
+
   return (
     <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-white dark:bg-dark-900">
+      <SciFiGridBg />
       <Starfield />
       <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10 text-center flex flex-col items-center justify-center min-h-screen py-16">
           <motion.p

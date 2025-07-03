@@ -14,8 +14,6 @@ const Contact = () => {
     message: ''
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
   
   const { ref, inView } = useInView({
     triggerOnce: true,
@@ -26,19 +24,19 @@ const Contact = () => {
     {
       icon: <FiMail size={20} />,
       title: 'Email',
-      value: 'john.doe@example.com',
-      link: 'mailto:john.doe@example.com'
+      value: 'sahilkhatiwadad@hotmail.com',
+      link: 'mailto:sahilkhatiwadad@hotmail.com'
     },
     {
       icon: <FiPhone size={20} />,
       title: 'Phone',
-      value: '+1 (555) 123-4567',
-      link: 'tel:+15551234567'
+      value: '+977 9768400837',
+      link: 'tel:+9779768400837'
     },
     {
       icon: <FiMapPin size={20} />,
       title: 'Location',
-      value: 'San Francisco, CA',
+      value: 'Itahari, Nepal',
       link: null
     }
   ];
@@ -47,12 +45,12 @@ const Contact = () => {
     {
       icon: <FiGithub size={20} />,
       name: 'GitHub',
-      url: 'https://github.com/username',
+      url: 'https://github.com/sahilkhatiwada',
     },
     {
       icon: <FiLinkedin size={20} />,
       name: 'LinkedIn',
-      url: 'https://linkedin.com/in/username',
+      url: 'https://www.linkedin.com/in/sahil-khatiwada-3344621a7/',
     },
     {
       icon: <FiTwitter size={20} />,
@@ -88,33 +86,16 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-        }),
-      });
-      if (!response.ok) throw new Error('Failed to send message');
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setSubmitStatus(null), 5000);
-    } catch (error) {
-      setSubmitStatus('error');
-      setTimeout(() => setSubmitStatus(null), 5000);
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Construct mailto link
+    const mailto = `mailto:sahilkhatiwadad@hotmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`
+    )}`;
+    window.location.href = mailto;
   };
 
   const handleChange = (e) => {
@@ -247,12 +228,12 @@ const Contact = () => {
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="sm:col-span-2">
                     <label htmlFor="name" className="input-label">Your Name</label>
-                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="input-field" placeholder="John Doe" />
+                    <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="input-field" placeholder="sahil khatiwada" />
                     {errors.name && <p className="input-error">{errors.name}</p>}
                   </div>
                   <div className="sm:col-span-2">
                     <label htmlFor="email" className="input-label">Your Email</label>
-                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="input-field" placeholder="john.doe@email.com" />
+                    <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="input-field" placeholder="sahilkhatiwadad@hotmail.com" />
                     {errors.email && <p className="input-error">{errors.email}</p>}
                   </div>
                 </div>
@@ -269,47 +250,15 @@ const Contact = () => {
                 <div className="mt-6 text-right">
                   <motion.button
                     type="submit"
-                    disabled={isSubmitting}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="btn-primary flex items-center justify-center gap-2 w-full sm:w-auto"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <FiLoader className="animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <FiSend />
-                        <span>Send Message</span>
-                      </>
-                    )}
+                    <FiSend />
+                    <span>Send Message</span>
                   </motion.button>
                 </div>
               </form>
-
-              {submitStatus === 'success' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 flex items-center gap-2 p-4 rounded-lg bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300"
-                >
-                  <FiCheck size={20} />
-                  <p>Your message has been sent successfully! I'll get back to you soon.</p>
-                </motion.div>
-              )}
-
-              {submitStatus === 'error' && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 flex items-center gap-2 p-4 rounded-lg bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-300"
-                >
-                  <FiAlertCircle size={20} />
-                  <p>Something went wrong. Please try again later.</p>
-                </motion.div>
-              )}
             </div>
           </motion.div>
         </div>

@@ -42,5 +42,49 @@
     "readTime": "10 min read",
     "tags": ["Node.js", "Express", "API Design"],
     "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop"
+  },
+  {
+    "id": 5,
+    "title": "Building a Full-Stack E-Commerce Platform with MERN",
+    "excerpt": "Discover the process of architecting a robust e-commerce platform from scratch using the MERN stack, with a focus on scalability, security, and seamless user experience.",
+    "content": "Launching an e-commerce platform is more than just putting products online—it's about creating a secure, scalable, and intuitive experience for both users and administrators.  In this blog, I walk you through my journey of building a full-stack e-commerce application using MongoDB, Express, React, and Node.js.  I started by designing a flexible database schema to handle products, users, and orders. Integrating payment gateways like Khalti required careful attention to security and transaction reliability.  One of the biggest challenges was ensuring real-time updates for inventory and order status, which I solved using efficient API design and state management in React.  Authentication and authorization were implemented to protect user data and admin routes.  This project taught me the importance of balancing performance with security, and how to deliver a smooth checkout experience that users can trust.",
+    "author": "Sahil Khatiwada",
+    "date": "2024-06-09",
+    "readTime": "9 min read",
+    "tags": ["React", "Node.js", "MongoDB", "Express", "E-Commerce"],
+    "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=500&h=300&fit=crop"
+  },
+  {
+    "id": 6,
+    "title": "Collaborative Task Management with React and Firebase",
+    "excerpt": "A behind-the-scenes look at building a real-time, collaborative task management app with React and Firebase, featuring drag-and-drop and team notifications.",
+    "content": "Effective teamwork starts with great tools. I set out to build a task management app that would make collaboration effortless for teams of any size.  Using React for the frontend and Firebase for the backend, I implemented real-time updates so that every team member sees changes instantly.  The drag-and-drop interface was a fun challenge, requiring careful state management and UI feedback.  Notifications and activity logs keep everyone in the loop, while role-based permissions ensure data privacy.  Throughout the project, I learned how to optimize for both speed and reliability, and how to design interfaces that encourage productivity and transparency.",
+    "author": "Sahil Khatiwada",
+    "date": "2024-06-09",
+    "readTime": "7 min read",
+    "tags": ["React", "Firebase", "Task Management", "Collaboration"],
+    "image": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=500&h=300&fit=crop"
+  },
+  {
+    "id": 7,
+    "title": "Expense Tracker with the MERN Stack",
+    "excerpt": "Track, analyze, and manage your finances with a secure, full-stack MERN application. Learn how I built authentication, data visualization, and a user-friendly dashboard.",
+    "content": "Personal finance is a journey, and I wanted to make it easier for users to track their expenses and visualize their spending habits.  This project leverages the MERN stack to provide a secure, responsive, and interactive experience.  I implemented user authentication to keep data private, and used charting libraries to turn raw numbers into actionable insights.  The dashboard is designed for clarity, with filters and summaries that help users understand their financial health at a glance.  Building this app deepened my understanding of RESTful API design, JWT authentication, and the importance of intuitive UX in financial tools.",
+    "author": "Sahil Khatiwada",
+    "date": "2024-06-09",
+    "readTime": "6 min read",
+    "tags": ["MongoDB", "Express", "React", "Node.js", "Finance"],
+    "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=500&h=300&fit=crop"
+  },
+  {
+    "id": 8,
+    "title": "Building a Digital Clock with Offline Alarm Support (PWA)",
+    "excerpt": "Explore how I created a modern digital clock and alarm app as a Progressive Web App (PWA), with offline support, notifications, and a beautiful UI.",
+    "content": "Time management is essential, and I wanted to build a tool that was both functional and delightful to use.  This digital clock and alarm app, built with Next.js and TypeScript, works seamlessly online and offline thanks to PWA technology.  Users can set multiple alarms, customize sounds, and receive notifications—even when offline.  Designing the UI was a creative process, focusing on accessibility and visual appeal.  Implementing offline support and background notifications pushed me to explore advanced features of service workers and browser APIs.  This project reinforced my skills in building resilient, user-centric web applications.",
+    "author": "Sahil Khatiwada",
+    "date": "2024-06-09",
+    "readTime": "8 min read",
+    "tags": ["Next.js", "TypeScript", "PWA", "Alarm", "UI/UX"],
+    "image": "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=500&h=300&fit=crop"
   }
 ] 

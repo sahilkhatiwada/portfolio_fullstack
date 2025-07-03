@@ -4,12 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 
+const ADMIN_PASSWORD = 'yourStrongPassword'; // Use the same password as in Blog.js
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const location = useLocation();
   const [activePath, setActivePath] = useState(location.pathname);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const navItems = [
     { name: 'Home', path: '/', isPage: true },
@@ -46,6 +49,11 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [location.pathname]);
 
+  useEffect(() => {
+    const adminFlag = localStorage.getItem('isAdmin');
+    if (adminFlag === 'true') setIsAdmin(true);
+  }, []);
+
   const scrollToSection = (e, path) => {
     e.preventDefault();
     if (path.startsWith('#')) {
@@ -70,6 +78,21 @@ const Navbar = () => {
       }
     }
     setIsOpen(false);
+  };
+
+  const handleAdminLogin = () => {
+    const pwd = prompt('Enter admin password:');
+    if (pwd === ADMIN_PASSWORD) {
+      setIsAdmin(true);
+      localStorage.setItem('isAdmin', 'true');
+    } else {
+      alert('Incorrect password!');
+    }
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdmin(false);
+    localStorage.removeItem('isAdmin');
   };
 
   const menuVariants = {
@@ -190,6 +213,15 @@ const Navbar = () => {
             >
               {isDark ? <FiSun size={20} /> : <FiMoon size={20} />}
             </motion.button>
+
+            {/* Admin login/logout button, only show on /blog */}
+            {location.pathname === '/blog' && (
+              !isAdmin ? (
+                <button onClick={handleAdminLogin} className="px-4 py-2 bg-primary-600 text-white rounded-full font-medium shadow hover:bg-primary-700 transition">Admin Login</button>
+              ) : (
+                <button onClick={handleAdminLogout} className="px-4 py-2 bg-gray-400 text-white rounded-full font-medium shadow hover:bg-gray-500 transition">Logout</button>
+              )
+            )}
 
             <motion.button
               onClick={() => setIsOpen(!isOpen)}

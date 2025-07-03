@@ -6,8 +6,8 @@ import { Link, animateScroll as scroll } from 'react-scroll';
 
 const Footer = () => {
   const socialLinks = [
-    { name: 'GitHub', icon: <FaGithub />, url: 'https://github.com/your-username' },
-    { name: 'LinkedIn', icon: <FaLinkedin />, url: 'https://linkedin.com/in/your-username' },
+    { name: 'GitHub', icon: <FaGithub />, url: 'https://github.com/sahilkhatiwada' },
+    { name: 'LinkedIn', icon: <FaLinkedin />, url: 'https://www.linkedin.com/in/sahil-khatiwada-3344621a7/' },
     { name: 'Twitter', icon: <FaTwitter />, url: 'https://twitter.com/your-username' },
   ];
 

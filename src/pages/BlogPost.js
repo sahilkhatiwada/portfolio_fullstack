@@ -55,29 +55,47 @@ const BlogPost = () => {
     );
   }
 
+  // Animation variants
+  const heroVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+  };
+  const fadeStagger = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.15, duration: 0.6 }
+    })
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial="hidden"
+      animate="visible"
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
       className="pt-20"
     >
       {/* Hero Section */}
-      <section className="relative h-96 md:h-[500px] overflow-hidden">
+      <motion.section
+        variants={heroVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative h-96 md:h-[500px] overflow-hidden"
+      >
         <img
           src={post.image}
           alt={post.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover scale-105 motion-safe:animate-zoom"
         />
-        <div className="absolute inset-0 bg-black/50" />
-        
+        <motion.div className="absolute inset-0 bg-black/50" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7 }} />
         <div className="absolute inset-0 flex items-center">
           <div className="container-custom">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              variants={fadeStagger}
+              custom={1}
+              initial="hidden"
+              animate="visible"
               className="max-w-4xl"
             >
               <div className="flex items-center gap-4 text-white/80 text-sm mb-4">
@@ -93,18 +111,15 @@ const BlogPost = () => {
                   <span>By {post.author}</span>
                 </div>
               </div>
-              
               <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
                 {post.title}
               </h1>
-              
               <p className="text-xl text-white/90 max-w-3xl">
                 {post.excerpt}
               </p>
             </motion.div>
           </div>
         </div>
-
         {/* Back Button */}
         <motion.button
           initial={{ opacity: 0, x: -20 }}
@@ -115,7 +130,7 @@ const BlogPost = () => {
         >
           <FiArrowLeft size={24} />
         </motion.button>
-      </section>
+      </motion.section>
 
       {/* Content Section */}
       <section className="section-padding bg-white dark:bg-dark-900">
@@ -123,29 +138,35 @@ const BlogPost = () => {
           <div className="max-w-4xl mx-auto">
             {/* Tags */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              variants={fadeStagger}
+              custom={2}
+              initial="hidden"
+              animate="visible"
               className="flex items-center gap-2 mb-8"
             >
               <FiTag size={20} className="text-gray-400" />
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag, index) => (
-                  <span
+                  <motion.span
                     key={index}
+                    variants={fadeStagger}
+                    custom={2.1 + index * 0.1}
+                    initial="hidden"
+                    animate="visible"
                     className="px-3 py-1 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 text-sm rounded-full"
                   >
                     {tag}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </motion.div>
 
             {/* Share Button */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              variants={fadeStagger}
+              custom={2.5}
+              initial="hidden"
+              animate="visible"
               className="mb-8"
             >
               <button
@@ -159,9 +180,10 @@ const BlogPost = () => {
 
             {/* Article Content */}
             <motion.article
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              variants={fadeStagger}
+              custom={3}
+              initial="hidden"
+              animate="visible"
               className="prose prose-lg dark:prose-invert max-w-none"
             >
               <div className="text-gray-700 dark:text-gray-300 leading-relaxed space-y-6">
@@ -197,102 +219,64 @@ const BlogPost = () => {
 
             {/* Author Info */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="mt-12 p-6 bg-gray-50 dark:bg-dark-800 rounded-xl"
+              variants={fadeStagger}
+              custom={3.5}
+              initial="hidden"
+              animate="visible"
+              className="mt-12 flex items-center gap-4"
             >
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                  {post.author.split(' ').map(n => n[0]).join('')}
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    {post.author}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Full Stack Developer passionate about creating amazing digital experiences.
-                  </p>
-                </div>
+              <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                {post.author.split(' ').map(n => n[0]).join('')}
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  {post.author}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Full Stack Developer passionate about creating amazing digital experiences.
+                </p>
               </div>
             </motion.div>
+
+            {/* Related Posts */}
+            {relatedPosts.length > 0 && (
+              <motion.div
+                variants={fadeStagger}
+                custom={4}
+                initial="hidden"
+                animate="visible"
+                className="mt-16"
+              >
+                <h3 className="text-2xl font-bold mb-6">Related Posts</h3>
+                <div className="grid md:grid-cols-2 gap-8">
+                  {relatedPosts.map((rel, idx) => (
+                    <motion.div
+                      key={rel.id}
+                      whileHover={{ scale: 1.03, boxShadow: '0 8px 32px rgba(80,0,200,0.10)' }}
+                      className="card overflow-hidden group transition-transform duration-300"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 * idx, duration: 0.6 }}
+                    >
+                      <Link to={`/blog/${rel.id}`}>
+                        <img src={rel.image} alt={rel.title} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div className="p-4">
+                          <h4 className="text-lg font-bold mb-2 group-hover:text-primary-600 transition-colors duration-300">{rel.title}</h4>
+                          <p className="text-gray-600 dark:text-gray-400 line-clamp-2 mb-2">{rel.excerpt}</p>
+                          <div className="flex items-center gap-2 text-xs text-gray-400">
+                            <FiCalendar /> {formatDate(rel.date)}
+                          </div>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
           </div>
         </div>
       </section>
-
-      {/* Related Posts */}
-      {relatedPosts.length > 0 && (
-        <section className="section-padding bg-gray-50 dark:bg-dark-800">
-          <div className="container-custom">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                Related Posts
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400">
-                You might also be interested in these articles
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="grid md:grid-cols-3 gap-8"
-            >
-              {relatedPosts.map((relatedPost, index) => (
-                <motion.article
-                  key={relatedPost.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.2 + index * 0.1 }}
-                  whileHover={{ y: -10 }}
-                  className="card overflow-hidden group"
-                >
-                  <Link to={`/blog/${relatedPost.id}`}>
-                    <div className="relative overflow-hidden">
-                      <img
-                        src={relatedPost.image}
-                        alt={relatedPost.title}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-                  </Link>
-
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-3">
-                      <FiCalendar size={14} />
-                      <span>{formatDate(relatedPost.date)}</span>
-                    </div>
-
-                    <Link to={`/blog/${relatedPost.id}`}>
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
-                        {relatedPost.title}
-                      </h3>
-                    </Link>
-
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                      {relatedPost.excerpt}
-                    </p>
-
-                    <Link
-                      to={`/blog/${relatedPost.id}`}
-                      className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium text-sm transition-colors duration-300"
-                    >
-                      Read More →
-                    </Link>
-                  </div>
-                </motion.article>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-      )}
     </motion.div>
   );
 };
